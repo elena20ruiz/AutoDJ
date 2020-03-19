@@ -1,0 +1,4 @@
+Flask
+Flask-CORS
+connexion[swagger-ui]
+python-dotenv

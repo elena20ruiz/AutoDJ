@@ -1,0 +1,63 @@
+
+
+openapi: '3.0.0'
+
+info:
+  description: AutoDJ creates a playlist from a selection of the bests requested songs.
+  version: '1.0'
+  title: AutoDJ API
+
+tags:
+  - name: session
+    description: Manage a session that will allow to create the shared playlist
+  - name: playlist
+    description: Manage generated playlists
+
+paths:
+  /generate:
+    post:
+      tags:
+        - playlist
+      summary: From a existing playlists generate a new playlist with a selection of the bests songs
+      operationId: src.endpoints.playlist.generate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                playlist:
+                  type: string
+                  description: Spotify Playlist identifier. The ones to distribute in different playlist
+                moods:
+                  type: array
+                  description: Array of differents moods for the different playlist.
+      responses:
+        200:
+          description: Standard GranHermano API JSON response. You should check the `error` attribute to determine if there was an error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIResponse'
+        default:
+          description: Unexpected error.
+          content:
+            application/text:
+              schema:
+                type: string
+                description: Error description. 
+components:
+  schemas:
+    APIResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+          description: Whether or not the request was successfully processed or not.
+        message:
+          type: string
+          description: Error message if the request was unsuccessful.
+        response:
+          type: object
+          description: Contains the response data if the request was successful.
